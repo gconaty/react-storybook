@@ -16,7 +16,13 @@ exports.default = function (configDir) {
     publicPath = publicPath.slice(1);
   }
 
-  var compiler = (0, _webpack2.default)(config);
+  var compiler = void 0;
+  try {
+    compiler = (0, _webpack2.default)(config);
+  } catch (err) {
+    console.log(err);
+  }
+
   var devMiddlewareOptions = {
     noInfo: true,
     publicPath: config.output.publicPath,

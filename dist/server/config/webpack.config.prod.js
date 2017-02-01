@@ -46,10 +46,7 @@ exports.default = function () {
     resolve: {
       // Since we ship with json-loader always, it's better to move extensions to here
       // from the default config.
-      extensions: ['.js', '.json', '.jsx', ''],
-      // Add support to NODE_PATH. With this we could avoid relative path imports.
-      // Based on this CRA feature: https://github.com/facebookincubator/create-react-app/issues/253
-      fallback: _utils.nodePaths,
+      extensions: ['.js', '.json', '.jsx'],
       alias: {
         // This is to add addon support for NPM2
         '@kadira/storybook-addons': require.resolve('@kadira/storybook-addons')
@@ -61,6 +58,13 @@ exports.default = function () {
   // But webpack 1 has it. That's why we do this.
   if (_utils.OccurenceOrderPlugin) {
     config.plugins.unshift(new _utils.OccurenceOrderPlugin());
+  }
+
+  if (webpackVersion === 1) {
+    // Add support to NODE_PATH. With this we could avoid relative path imports.
+    // Based on this CRA feature: https://github.com/facebookincubator/create-react-app/issues/253
+    config.fallback = _utils.nodePaths;
+    config.resolve.extensions.push('');
   }
 
   return config;

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.nodePaths = exports.nodeModulesPaths = exports.excludePaths = exports.includePaths = exports.OccurenceOrderPlugin = undefined;
+exports.nodePaths = exports.nodeModulesPaths = exports.excludePaths = exports.includePaths = exports.webpackVersion = exports.OccurenceOrderPlugin = undefined;
 
 var _stringify = require('babel-runtime/core-js/json/stringify');
 
@@ -30,6 +30,8 @@ var OccurenceOrderPlugin =
 exports.OccurenceOrderPlugin = _webpack2.default.optimize.OccurrenceOrderPlugin ||
 // for webpack 1
 _webpack2.default.optimize.OccurenceOrderPlugin;
+
+var webpackVersion = exports.webpackVersion = _webpack2.default.optimize.OccurrenceOrderPlugin ? 2 : 1;
 
 var includePaths = exports.includePaths = [_path2.default.resolve('./')];
 

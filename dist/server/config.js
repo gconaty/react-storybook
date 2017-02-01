@@ -72,7 +72,7 @@ exports.default = function (configType, baseConfig, configDir) {
     })
   });
 
-  addJsonLoaderIfNotAvailable(newConfig);
+  // addJsonLoaderIfNotAvailable(newConfig);
 
   return newConfig;
 };

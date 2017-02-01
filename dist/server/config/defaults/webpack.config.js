@@ -14,6 +14,10 @@ var _autoprefixer2 = _interopRequireDefault(_autoprefixer);
 
 var _utils = require('../utils');
 
+var _webpack = require('webpack');
+
+var _webpack2 = _interopRequireDefault(_webpack);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Add a default custom config which is similar to what React Create App does.
@@ -44,11 +48,19 @@ module.exports = function (storybookBaseConfig) {
     }
   }]);
 
-  newConfig.postcss = function () {
-    return [(0, _autoprefixer2.default)({
-      browsers: ['>1%', 'last 4 versions', 'Firefox ESR', 'not ie < 9']
-    })];
-  };
+  var postcssPlugins = [(0, _autoprefixer2.default)({
+    browsers: ['>1%', 'last 4 versions', 'Firefox ESR', 'not ie < 9']
+  })];
+
+  if (_utils.webpackVersion === 1) {
+    newConfig.postcss = function () {
+      return postcssPlugins;
+    };
+  } else {
+    newConfig.plugins.push(new _webpack2.default.LoaderOptionsPlugin({
+      postcss: postcssPlugins
+    }));
+  }
 
   newConfig.resolve.alias = (0, _extends3.default)({}, storybookBaseConfig.resolve.alias, {
     // This is to support NPM2
