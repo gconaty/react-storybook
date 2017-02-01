@@ -20,7 +20,13 @@ export default function (configDir) {
     publicPath = publicPath.slice(1);
   }
 
-  const compiler = webpack(config);
+  let compiler
+  try {
+    compiler = webpack(config);
+  } catch (err) {
+    console.log(err)
+  }
+
   const devMiddlewareOptions = {
     noInfo: true,
     publicPath: config.output.publicPath,

@@ -1,5 +1,6 @@
 import autoprefixer from 'autoprefixer';
-import { includePaths } from '../utils';
+import { includePaths, webpackVersion } from '../utils';
+import webpack from 'webpack';
 
 // Add a default custom config which is similar to what React Create App does.
 module.exports = (storybookBaseConfig) => {
@@ -39,18 +40,26 @@ module.exports = (storybookBaseConfig) => {
     },
   ];
 
-  newConfig.postcss = () => {
-    return [
-      autoprefixer({
-        browsers: [
-          '>1%',
-          'last 4 versions',
-          'Firefox ESR',
-          'not ie < 9',
-        ],
-      }),
-    ];
-  };
+  const postcssPlugins = [
+    autoprefixer({
+      browsers: [
+        '>1%',
+        'last 4 versions',
+        'Firefox ESR',
+        'not ie < 9',
+      ],
+    }),
+  ];
+
+  if (webpackVersion === 1) {
+    newConfig.postcss = () => {
+      return postcssPlugins
+    };
+  } else {
+    newConfig.plugins.push(new webpack.LoaderOptionsPlugin({
+      postcss: postcssPlugins,
+    }))
+  }
 
   newConfig.resolve.alias = {
     ...storybookBaseConfig.resolve.alias,
