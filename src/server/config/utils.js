@@ -41,8 +41,18 @@ export function loadEnv(options = {}) {
     .forEach((name) => {
       env[name] = process.env[name];
     });
-
-  return {
-    'process.env': JSON.stringify(env),
-  };
+  
+  if (webpackVersion == 2) {
+    Object.keys(env).forEach((name) => {
+      env[name] = JSON.stringify(env[name])
+    })
+    return {
+      'process.env': env
+    }
+  }
+  else {
+    return {
+      'process.env': JSON.stringify(env),
+    };
+  }
 }
