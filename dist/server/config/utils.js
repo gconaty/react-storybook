@@ -64,7 +64,16 @@ function loadEnv() {
     env[name] = process.env[name];
   });
 
-  return {
-    'process.env': (0, _stringify2.default)(env)
-  };
+  if (webpackVersion == 2) {
+    (0, _keys2.default)(env).forEach(function (name) {
+      env[name] = (0, _stringify2.default)(env[name]);
+    });
+    return {
+      'process.env': env
+    };
+  } else {
+    return {
+      'process.env': (0, _stringify2.default)(env)
+    };
+  }
 }
